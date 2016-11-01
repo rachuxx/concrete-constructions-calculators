@@ -1,2 +1,2 @@
-# Concrete properties checker
-Use it by running and typing concrete class for e.x: C16/20, B37, etc. You will get a list of concrete properties of this class of concrete.
+# Concrete constructions' calculator
+This is going to be a set of small module-typed scripts for calculating concrete constructions: inner forces, reinforcement etc.
