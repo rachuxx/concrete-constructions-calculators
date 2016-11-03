@@ -1,17 +1,20 @@
-require_relative 'constants.rb'
-start = Indexer.new
+require 'pry'
 
-puts 'Welcome to concrete characteristics database!'
-print 'What class of concrete You want to look up for? (ex. C16/20, B37, etc.)
-Class:'
-loop do
+types = ['beam']
+
+# Start of user-program interaction
+puts 'Welcome to reinforced concrete constructions calculator!'
+puts 'What kind of element You want to calculate?'
+puts 'As for now, I can help You with: beams (BEAM)'
+print 'I want to calculate: '
+str = gets.chomp.downcase
+until types.include?(str) || str.casecmp('quit').zero?
+  puts 'I don\'t know that type. Try again. Psst... U can always type QUIT'
   str = gets.chomp
-  break if str.casecmp('quit').zero?
-  while start.index(str).nil?
-    print "\nThere's no such class! Try again!\nClass:"
-    str = gets.chomp
-  end
-  ix = start.index(str)
-  Informer.new.info(ix)
-  puts "\nWant to chceck another? Which one? If no, type QUIT"
+end
+
+# Script starter
+case str
+when 'beam' then
+  require_relative 'beam.rb'
 end
