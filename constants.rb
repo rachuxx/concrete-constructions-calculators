@@ -54,6 +54,14 @@ module Const
     conc: 1.5,
     steel_comp: 1.15
   }.freeze
+  C_MIN_DUR = {
+    '1' => [10, 10, 10, 15, 20, 25, 30],
+    '2' => [10, 10, 15, 20, 25, 30, 35],
+    '3' => [10, 10, 20, 25, 30, 35, 40],
+    '4' => [10, 15, 25, 30, 35, 40, 45],
+    '5' => [15, 20, 30, 35, 40, 45, 50],
+    '6' => [20, 25, 35, 40, 45, 55, 55]
+  }.freeze
 end
 
 # Concrete info
@@ -94,3 +102,36 @@ end
 def con_par(par, con_ix)
   Const::CONCRETE_VALUES.values[par][con_ix] / Const::PARTIAL_FACTORS[:conc]
 end
+
+# Method which calculates concrete cover
+def con_cover
+  puts 'User input for cover? Y/N'
+  test = gets.chomp.downcase
+  if test == 'n'
+    puts 'What\'s maximal given diameter of main reinforcement bars? [mm]'
+    fi = gets.chomp.to_f
+    puts 'Choose class of exposition:'
+    puts '1-X0; 2-XC1; 3-XC2/XC4; 4-XC4; 5-XD1/XS1; 6-XD2/XS2; 7-XD3/XS3'
+    print 'Class: '
+    cl_exp = gets.chomp.to_i
+    puts "\nChoose class of construction:"
+    puts '1-S1; 2-S2; 3-S3; 4-S4; 5-S5; 6-S6'
+    print 'Class: '
+    cl_const = gets.chomp.to_i.to_s
+    c_min_dur = Const::C_MIN_DUR[cl_const][cl_exp - 1]
+    c_min_b = fi
+    c_min = [c_min_b, c_min_dur, 10].max
+    puts "\nCover deviation? Default: 10"
+    print 'Deviation: '
+    d_c_dev = gets.chomp.to_f
+    c_min + d_c_dev
+  else
+    puts 'What\'s the nominal concrete cover?'
+    print 'Cover [mm]: '
+    gets.chomp.to_f
+  end
+end
+
+# def xsi_eff_lim(fyk, con_ix)
+#   0.8 * (Const::CONCRETE_VALUES[:ecu1][con_ix]/(Const::CONCRETE_VALUES[:ecu1][con_ix]+(fyk/1.15)/Const::CONCRETE_VALUES[:ecu1][con_ix]
+# end
