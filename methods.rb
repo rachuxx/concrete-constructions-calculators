@@ -90,14 +90,14 @@ end
 def section
   puts "\nSpecify section's dimensions in [cm]"
   puts 'Square - h b'
-  puts 'T-section - h bf hf a'
+  puts 'T-section - hf bf hw bw'
   s = gets.chomp.split.map!(&:to_f)
   require 'ostruct'
   @sec = OpenStruct.new
   @sec.h = s[0]
   @sec.b = s[1]
-  @sec.hf = s[2] unless s[2].nil?
-  @sec.a = s[3] unless s[3].nil?
+  @sec.hh = s[2] unless s[2].nil?
+  @sec.bb = s[3] unless s[3].nil?
 end
 
 # Method defining reinforcement
@@ -115,5 +115,6 @@ def reinforcement
   fi2 = gets.chomp.to_f
   @as1 = n * r * ((@fi / 20)**2) * Const::PI
   @a = (@c_nom / 10) + (fi2 / 10) + (@fi / 20) + ((n - 1) * (sp / 2))
-  @d = @sec.h - @a
+  @d = @sec.h - @a if @t_section.zero?
+  @d = (@sec.h + @sec.hh) - @a if @t_section == 1
 end

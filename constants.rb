@@ -51,7 +51,7 @@ module Const
   # Materials' partial factors
   PARTIAL_FACTORS = {
     steel: 1.15,
-    conc: 1.5,
+    conc: 1.4,
     steel_comp: 1.15
   }.freeze
   C_MIN_DUR = {
